@@ -70,7 +70,7 @@
   .card .ic{font-size:22px;margin-bottom:12px;display:block}
 
   /* install */
-  pre{background:#14110e;color:#d9d2c6;border-radius:14px;padding:20px 22px;overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.7}
+  pre{background:#14110e;color:#d9d2c6;border-radius:14px;padding:20px 22px;overflow:auto;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.7}
   pre .c{color:#8a8178}
   .steps{counter-reset:s;display:grid;gap:18px;margin-top:8px}
   .step{display:flex;gap:14px;align-items:flex-start}
@@ -155,7 +155,8 @@
 /plugin install design-review@superfuture
 
 <span class="c"># …or drop the folder in manually</span>
-git clone https://github.com/Superfuture/design-review /tmp/dr && cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/design-review</pre>
+git clone https://github.com/Superfuture/design-review /tmp/dr
+cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
     <div class="steps" style="margin-top:22px">
       <div class="step"><div class="n">2</div><p>Then just ask: <em>"design review officialjp.com"</em> or <em>"critique this paywall screenshot."</em></p></div>
     </div>
