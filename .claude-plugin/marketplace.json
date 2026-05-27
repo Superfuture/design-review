@@ -1,0 +1,20 @@
+{
+  "name": "superfuture",
+  "owner": {
+    "name": "Joey Primiani",
+    "email": "jprimiani@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "design-review",
+      "source": "./design-review",
+      "description": "A senior design critique in your terminal — ranked findings across hierarchy, type, spacing, contrast, motion, and accessibility, with fixes you can auto-apply.",
+      "version": "1.0.0",
+      "author": "Joey Primiani",
+      "homepage": "https://superfuture.github.io/design-review/",
+      "license": "MIT",
+      "category": "design",
+      "keywords": ["design", "review", "critique", "accessibility", "ui", "ux"]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+name = "design-review-pro"
+main = "src/index.js"
+compatibility_date = "2026-05-27"
+
+# License store. The `id` is filled in by:  npx wrangler kv namespace create LICENSES
+[[kv_namespaces]]
+binding = "LICENSES"
+id = "__KV_ID__"
+
+# Secrets (NOT committed) — set with wrangler:
+#   npx wrangler secret put WEBHOOK_SECRET      # shared secret your store sends
+#   npx wrangler secret put ANTHROPIC_API_KEY   # optional, enables /report
