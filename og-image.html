@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#f7f4ee;--ink:#1a1714;--ink-soft:#4a443d;--muted:#645b52;--persimmon:#e8623b;--line:#e6ded2}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{background:var(--cream);font-family:Inter,system-ui,sans-serif;color:var(--ink);
+       padding:72px 80px;display:flex;flex-direction:column;justify-content:space-between}
+  .pill{display:inline-block;font-size:18px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+        color:#a8401e;background:rgba(232,98,59,.12);padding:9px 18px;border-radius:999px}
+  h1{font-family:'Instrument Serif',Georgia,serif;font-size:104px;line-height:.98;letter-spacing:-.01em;margin:30px 0 24px}
+  h1 .it{font-style:italic;color:var(--persimmon)}
+  .sub{font-size:30px;color:var(--ink-soft);max-width:820px}
+  .row{display:flex;align-items:center;justify-content:space-between}
+  .findings{display:flex;gap:22px;font-size:20px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+  .findings b{font-weight:600}
+  .dot{display:inline-block;width:13px;height:13px;border-radius:50%;margin-right:9px;vertical-align:middle}
+  .by{font-size:22px;color:var(--ink-soft)}
+  .by b{font-family:'Instrument Serif',serif;font-weight:400;font-size:26px}
+  .wm{font-family:'Instrument Serif',serif;font-size:34px}
+  .wm b{color:var(--persimmon)}
+</style>
+</head>
+<body>
+  <div>
+    <span class="pill">Claude Code skill</span>
+    <h1>A senior design<br><span class="it">critique</span>, in your terminal.</h1>
+    <div class="sub">Ranked findings. Specific fixes. Auto-applied — craft standards, not vibes.</div>
+  </div>
+  <div class="row">
+    <div class="findings">
+      <span><span class="dot" style="background:#e0524a"></span><b>Blocking</b></span>
+      <span><span class="dot" style="background:#e8a23b"></span><b>Important</b></span>
+      <span><span class="dot" style="background:#c9c044"></span><b>Polish</b></span>
+    </div>
+    <div class="wm"><b>/</b>design-review</div>
+  </div>
+</body>
+</html>
