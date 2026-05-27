@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>design-review — a senior design critique in your terminal</title>
 <meta name="description" content="A Claude Code skill that runs a sharp, prioritized design critique of any URL, screenshot, or component — hierarchy, type, spacing, contrast, motion, and accessibility — with specific fixes you can auto-apply." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>🎯</text></svg>" />
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="design-review — a senior design critique in your terminal" />
+<meta property="og:description" content="Ranked design findings with specific fixes you can auto-apply. A Claude Code skill." />
+<meta property="og:url" content="https://superfuture.github.io/design-review/" />
+<meta property="og:image" content="https://superfuture.github.io/design-review/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="design-review — a senior design critique in your terminal" />
+<meta name="twitter:description" content="Ranked design findings with specific fixes you can auto-apply. A Claude Code skill." />
+<meta name="twitter:image" content="https://superfuture.github.io/design-review/og-image.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --cream:#f7f4ee; --paper:#fffdf8; --ink:#1a1714; --ink-soft:#4a443d;
-    --muted:#8a8178; --line:#e6ded2; --persimmon:#e8623b; --persimmon-deep:#c94e2c;
+    --muted:#645b52; --line:#e6ded2; --persimmon:#e8623b; --persimmon-deep:#c94e2c;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -29,7 +40,7 @@
 
   /* hero */
   .hero{padding:72px 0 56px;text-align:center}
-  .pill{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--persimmon-deep);background:rgba(232,98,59,.1);padding:6px 14px;border-radius:999px;margin-bottom:24px}
+  .pill{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a8401e;background:rgba(232,98,59,.1);padding:6px 14px;border-radius:999px;margin-bottom:24px}
   h1{font-family:'Instrument Serif',serif;font-size:clamp(44px,8vw,82px);line-height:1.02;letter-spacing:-.01em;margin-bottom:20px}
   h1 .italic{color:var(--persimmon)}
   .sub{font-size:clamp(17px,2.4vw,21px);color:var(--ink-soft);max-width:560px;margin:0 auto 36px}
@@ -39,9 +50,10 @@
   .btn-primary:hover{background:var(--persimmon);transform:translateY(-1px)}
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{border-color:var(--ink)}
+  .btn:focus-visible,.nav-cta:focus-visible,footer a:focus-visible{outline:2px solid var(--persimmon);outline-offset:3px;border-radius:6px}
 
   /* terminal demo */
-  .term{max-width:680px;margin:48px auto 0;background:#14110e;border-radius:16px;padding:20px 22px;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.7;color:#d9d2c6;box-shadow:0 24px 60px -24px rgba(26,23,20,.5)}
+  .term{max-width:680px;margin:48px auto 0;background:#14110e;border-radius:16px;padding:20px 22px;overflow-x:auto;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.7;color:#d9d2c6;box-shadow:0 24px 60px -24px rgba(26,23,20,.5)}
   .term .dots{display:flex;gap:7px;margin-bottom:14px}
   .term .dots i{width:11px;height:11px;border-radius:50%;display:inline-block}
   .term .prompt{color:#7fd49b}
@@ -79,6 +91,11 @@
 
   footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
   footer a{color:var(--ink-soft)}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+    .btn-primary:hover{transform:none}
+  }
 </style>
 </head>
 <body>
@@ -118,12 +135,12 @@
     <div class="eyebrow">What it does</div>
     <h2>Reviews like a <span class="serif italic">design lead</span> would.</h2>
     <div class="grid">
-      <div class="card"><span class="ic">🎯</span><h3>Ranked, not a dump</h3><p>Findings sorted blocking → important → polish, so you fix what matters first.</p></div>
-      <div class="card"><span class="ic">📐</span><h3>Real thresholds</h3><p>WCAG contrast ratios, 45–75ch measure, motion timing, 44px tap targets — numbers, not opinions.</p></div>
-      <div class="card"><span class="ic">🖼️</span><h3>URL, image, or code</h3><p>Critique a live page, a screenshot, or a component file with line-level references.</p></div>
-      <div class="card"><span class="ic">⚡</span><h3>Auto-apply fixes</h3><p>Run with <code>--apply</code> and it edits the safe ones — contrast, focus states, alt text, reduced-motion.</p></div>
-      <div class="card"><span class="ic">♿</span><h3>Accessibility built in</h3><p>Semantics, focus order, labels, contrast, and reduced-motion checked every pass.</p></div>
-      <div class="card"><span class="ic">✨</span><h3>Names the strengths</h3><p>Ends with what's working and the single highest-leverage change to make first.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">🎯</span><h3>Ranked, not a dump</h3><p>Findings sorted blocking → important → polish, so you fix what matters first.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">📐</span><h3>Real thresholds</h3><p>WCAG contrast ratios, 45–75ch measure, motion timing, 44px tap targets — numbers, not opinions.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">🖼️</span><h3>URL, image, or code</h3><p>Critique a live page, a screenshot, or a component file with line-level references.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">⚡</span><h3>Auto-apply fixes</h3><p>Run with <code>--apply</code> and it edits the safe ones — contrast, focus states, alt text, reduced-motion.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">♿</span><h3>Accessibility built in</h3><p>Semantics, focus order, labels, contrast, and reduced-motion checked every pass.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">✨</span><h3>Names the strengths</h3><p>Ends with what's working and the single highest-leverage change to make first.</p></div>
     </div>
   </section>
 
@@ -161,14 +178,14 @@ git clone https://github.com/Superfuture/design-review /tmp/dr && cp -r /tmp/dr/
         <div class="amt">$12</div>
         <div class="per">one-time</div>
         <ul><li>Everything in Free</li><li>Expanded mobile & SwiftUI rubric</li><li>Brand-token consistency checks</li><li>Priority updates</li></ul>
-        <a class="btn btn-primary" href="#">Get Pro →</a>
+        <a class="btn btn-primary" href="mailto:jprimiani@gmail.com?subject=design-review%20Pro">Get Pro →</a>
       </div>
       <div class="tier">
         <h3>Team</h3>
         <div class="amt">$49</div>
         <div class="per">per team</div>
         <ul><li>Everything in Pro</li><li>Shareable team config</li><li>Custom rubric tuning</li><li>Email support</li></ul>
-        <a class="btn btn-ghost" href="#">Get Team</a>
+        <a class="btn btn-ghost" href="mailto:jprimiani@gmail.com?subject=design-review%20Team">Get Team</a>
       </div>
     </div>
   </section>
