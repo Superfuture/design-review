@@ -5,7 +5,16 @@ compatibility_date = "2026-05-27"
 # License store. The `id` is filled in by:  npx wrangler kv namespace create LICENSES
 [[kv_namespaces]]
 binding = "LICENSES"
-id = "__KV_ID__"
+id = "52466658f2af435e82949d9224b4df91"
+
+# Email waitlist signups to you (reuses officialjp.com Email Routing + verified destination).
+[vars]
+FROM_ADDRESS = "forms@officialjp.com"
+TO_ADDRESS = "jprimiani@gmail.com"
+
+[[send_email]]
+name = "EMAIL"
+destination_address = "jprimiani@gmail.com"
 
 # Secrets (NOT committed) — set with wrangler:
 #   npx wrangler secret put WEBHOOK_SECRET      # shared secret your store sends

@@ -12,9 +12,46 @@
  *
  * Bindings (wrangler.toml):
  *   KV  LICENSES                      license store
+ *   send_email EMAIL                  emails waitlist signups to you
  *   secret WEBHOOK_SECRET             shared secret your store sends
  *   secret ANTHROPIC_API_KEY          (optional) enables /report
  */
+
+import { EmailMessage } from "cloudflare:email";
+
+// Base64 of a UTF-8 string for RFC 2047 Subject encoding (no legacy globals).
+function b64utf8(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+// Notify the owner of a new waitlist signup. Best-effort: never blocks the response.
+async function notify(env, { email, tier }) {
+  if (!env.EMAIL || !env.FROM_ADDRESS || !env.TO_ADDRESS) return;
+  const subject = `Waitlist signup — ${tier || "Pro"}`;
+  const body = [
+    "New design-review waitlist signup:",
+    "",
+    `Email: ${email}`,
+    `Tier:  ${tier || "Pro"}`,
+    `Time:  ${new Date().toISOString()}`,
+  ].join("\n");
+  const raw = [
+    `From: design-review <${env.FROM_ADDRESS}>`,
+    `To: ${env.TO_ADDRESS}`,
+    `Reply-To: ${email}`,
+    `Subject: =?UTF-8?B?${b64utf8(subject)}?=`,
+    "MIME-Version: 1.0",
+    'Content-Type: text/plain; charset="utf-8"',
+    "",
+    body,
+  ].join("\r\n");
+  try {
+    await env.EMAIL.send(new EmailMessage(env.FROM_ADDRESS, env.TO_ADDRESS, raw));
+  } catch (_) { /* don't fail the signup if email send hiccups */ }
+}
 
 const json = (status, obj) =>
   new Response(JSON.stringify(obj), {
@@ -71,6 +108,7 @@ export default {
         `waitlist:${Date.now()}:${email}`,
         JSON.stringify({ email, tier, ts: new Date().toISOString() })
       );
+      await notify(env, { email, tier });
       return json(200, { ok: true });
     }
 
