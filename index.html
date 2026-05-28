@@ -96,6 +96,20 @@
   .tier li:before{content:"✓";position:absolute;left:0;color:var(--persimmon);font-weight:700}
   .tier .btn{width:100%;justify-content:center}
 
+  /* waitlist modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(26,23,20,.5);display:grid;place-items:center;z-index:50;padding:20px}
+  .modal-overlay[hidden]{display:none}
+  .modal{background:var(--paper);border-radius:18px;padding:34px;max-width:430px;width:100%;position:relative;box-shadow:0 30px 80px -30px rgba(26,23,20,.55)}
+  .modal h3{font-family:'Instrument Serif',serif;font-size:30px;margin-bottom:8px}
+  .modal .lead{font-size:15px;color:var(--ink-soft);margin-bottom:20px}
+  .modal-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:var(--cream);border-radius:50%;font-size:18px;line-height:1;cursor:pointer;color:var(--ink-soft)}
+  .modal input[type=email]{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:12px;font-size:16px;margin-bottom:12px;font-family:inherit;color:var(--ink)}
+  .modal input[type=email]:focus{outline:2px solid var(--persimmon);outline-offset:1px;border-color:var(--persimmon)}
+  .modal .btn{width:100%;justify-content:center;border:none;cursor:pointer;font-family:inherit}
+  .wl-msg{font-size:14px;margin-top:12px;text-align:center}
+  .wl-success{color:#1a7f4b}
+  .wl-error{color:#ef4444}
+
   footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
   footer a{color:var(--ink-soft)}
   @media (prefers-reduced-motion: reduce){
@@ -215,14 +229,14 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
         <div class="amt">$12</div>
         <div class="per">one-time</div>
         <ul><li>Everything in Free</li><li>Expanded mobile & SwiftUI rubric</li><li>Brand-token consistency checks</li><li>Priority updates</li></ul>
-        <a class="btn btn-primary" href="mailto:jprimiani@gmail.com?subject=design-review%20Pro">Get Pro →</a>
+        <a class="btn btn-primary js-waitlist" data-tier="Pro" href="#">Get Pro →</a>
       </div>
       <div class="tier">
         <h3>Team</h3>
         <div class="amt">$49</div>
         <div class="per">per team</div>
         <ul><li>Everything in Pro</li><li>Shareable team config</li><li>Custom rubric tuning</li><li>Email support</li></ul>
-        <a class="btn btn-ghost" href="mailto:jprimiani@gmail.com?subject=design-review%20Team">Get Team</a>
+        <a class="btn btn-ghost js-waitlist" data-tier="Team" href="#">Get Team</a>
       </div>
     </div>
   </section>
@@ -232,5 +246,56 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
   </footer>
 
 </div>
+
+<div class="modal-overlay" id="waitlistModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
+    <button class="modal-x" type="button" aria-label="Close">×</button>
+    <h3 id="wlTitle">Join the <span class="wl-tier">Pro</span> waitlist</h3>
+    <p class="lead">It's not live yet — drop your email and you'll be first to know when <span class="wl-tier">Pro</span> ships.</p>
+    <form id="wlForm" novalidate>
+      <input type="text" name="company_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"/>
+      <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required />
+      <button type="submit" class="btn btn-primary">Notify me</button>
+      <p class="wl-msg wl-success" hidden>You're on the list — thanks! 🎉</p>
+      <p class="wl-msg wl-error" hidden>Something went wrong. Please try again.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById("waitlistModal");
+  const form = document.getElementById("wlForm");
+  const tiers = modal.querySelectorAll(".wl-tier");
+  const ok = modal.querySelector(".wl-success");
+  const err = modal.querySelector(".wl-error");
+  let tier = "Pro";
+  const open = (t) => { tier = t; tiers.forEach((e) => (e.textContent = t)); form.reset(); ok.hidden = true; err.hidden = true; form.email.disabled = false; modal.hidden = false; setTimeout(() => form.email.focus(), 30); };
+  const close = () => { modal.hidden = true; };
+  document.querySelectorAll(".js-waitlist").forEach((b) =>
+    b.addEventListener("click", (e) => { e.preventDefault(); open(b.dataset.tier || "Pro"); })
+  );
+  modal.querySelector(".modal-x").addEventListener("click", close);
+  modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) close(); });
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = (form.email.value || "").trim();
+    if (!email) { form.reportValidity(); return; }
+    const btn = form.querySelector("button[type=submit]");
+    const orig = btn.textContent;
+    ok.hidden = true; err.hidden = true; btn.disabled = true; btn.textContent = "Joining…";
+    try {
+      const res = await fetch("https://design-review-pro.jprimiani.workers.dev/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, tier, company_url: form.company_url.value }),
+      });
+      if (!res.ok) throw new Error();
+      ok.hidden = false; btn.textContent = "Done ✓"; form.email.disabled = true;
+    } catch (_) { err.hidden = false; btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+</script>
 </body>
 </html>

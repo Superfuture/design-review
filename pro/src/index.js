@@ -59,6 +59,21 @@ export default {
       return json(200, { valid: false });
     }
 
+    // ── Waitlist signup (painted-door: Pro/Team buttons collect emails) ──────
+    if (path === "/waitlist" && request.method === "POST") {
+      let body;
+      try { body = await request.json(); } catch { return json(400, { error: "Invalid JSON" }); }
+      if (String(body.company_url || "").trim()) return json(200, { ok: true }); // honeypot
+      const email = String(body.email || "").trim().slice(0, 200);
+      const tier = String(body.tier || "").trim().slice(0, 40);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { error: "Invalid email" });
+      await env.LICENSES.put(
+        `waitlist:${Date.now()}:${email}`,
+        JSON.stringify({ email, tier, ts: new Date().toISOString() })
+      );
+      return json(200, { ok: true });
+    }
+
     // ── Issue a license (called by your store webhook) ───────────────────────
     if (path === "/webhook" && request.method === "POST") {
       if (request.headers.get("X-Webhook-Secret") !== env.WEBHOOK_SECRET) {
