@@ -31,7 +31,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
   .wrap{max-width:980px;margin:0 auto;padding:0 24px}
   .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
   .italic{font-style:italic}
@@ -59,7 +59,9 @@
 
   /* terminal demo */
   .term{max-width:680px;margin:48px auto 0;background:#14110e;border-radius:16px;padding:20px 22px;overflow-x:auto;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.7;color:#d9d2c6;box-shadow:0 24px 60px -24px rgba(26,23,20,.5)}
-  .demo-video{display:block;max-width:780px;width:100%;margin:48px auto 0;border-radius:16px;background:#14110e;box-shadow:0 24px 60px -24px rgba(26,23,20,.5);aspect-ratio:1920/1062}
+  /* full-width video stage: breaks out of .wrap to span the viewport */
+  .video-stage{position:relative;left:50%;margin-left:-50vw;margin-right:-50vw;width:100vw;padding:0 24px;margin-top:36px}
+  .demo-video{display:block;width:100%;max-width:1600px;margin:0 auto;border-radius:16px;background:#14110e;box-shadow:0 30px 80px -30px rgba(26,23,20,.45);aspect-ratio:1920/1062}
   .term .dots{display:flex;gap:7px;margin-bottom:14px}
   .term .dots i{width:11px;height:11px;border-radius:50%;display:inline-block}
   .term .prompt{color:#7fd49b}
@@ -175,11 +177,20 @@
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
 
-    <video class="demo-video" autoplay muted loop playsinline preload="metadata"
-           poster="designcrit-poster.jpg"
-           aria-label="design-review reviewing a UI live in the terminal">
-      <source src="designcrit.mp4" type="video/mp4" />
-    </video>
+    <div class="term" aria-hidden="true">
+      <div class="dots"><i style="background:#f0605c"></i><i style="background:#f0c36b"></i><i style="background:#7fd49b"></i></div>
+      <div><span class="prompt">›</span> design review checkout.tsx</div>
+      <div class="dim">— reviewing against 10 craft dimensions…</div>
+      <br>
+      <div><span class="red">🔴 Blocking</span> · "Pay" button contrast 2.8:1 (fails AA)</div>
+      <div class="dim">  fix: darken bg to #c94e2c → 4.7:1</div>
+      <div><span class="amber">🟠 Important</span> · no focus-visible state on inputs</div>
+      <div class="dim">  fix: add :focus-visible ring, 2px persimmon</div>
+      <div><span class="yellow">🟡 Polish</span> · headline line-height 1.5 too loose</div>
+      <div class="dim">  fix: set 1.1 for display sizes</div>
+      <br>
+      <div class="prompt">✓ 3 findings · run with --apply to fix</div>
+    </div>
   </header>
 
   <section id="how">
@@ -209,6 +220,18 @@
       <div class="dimr"><span class="num">08</span><div><h3>Responsiveness</h3><p>Fluid type and spacing, no overflow or clipping from 320px up, touch-appropriate.</p></div></div>
       <div class="dimr"><span class="num">09</span><div><h3>Content &amp; copy</h3><p>Clear headlines, scannable structure, descriptive CTAs, human microcopy and errors.</p></div></div>
       <div class="dimr"><span class="num">10</span><div><h3>Consistency &amp; brand</h3><p>Reused design tokens, consistent radii, shadows, and icon style across screens.</p></div></div>
+    </div>
+  </section>
+
+  <section id="watch">
+    <div class="eyebrow">See it work</div>
+    <h2>Watch a real <span class="serif italic">review</span>.</h2>
+    <div class="video-stage">
+      <video class="demo-video" autoplay muted loop playsinline preload="metadata"
+             poster="designcrit-poster.jpg"
+             aria-label="design-review reviewing a UI live in the terminal">
+        <source src="designcrit.mp4" type="video/mp4" />
+      </video>
     </div>
   </section>
 
