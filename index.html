@@ -59,6 +59,7 @@
 
   /* terminal demo */
   .term{max-width:680px;margin:48px auto 0;background:#14110e;border-radius:16px;padding:20px 22px;overflow-x:auto;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.7;color:#d9d2c6;box-shadow:0 24px 60px -24px rgba(26,23,20,.5)}
+  .demo-video{display:block;max-width:780px;width:100%;margin:48px auto 0;border-radius:16px;background:#14110e;box-shadow:0 24px 60px -24px rgba(26,23,20,.5);aspect-ratio:1920/1062}
   .term .dots{display:flex;gap:7px;margin-bottom:14px}
   .term .dots i{width:11px;height:11px;border-radius:50%;display:inline-block}
   .term .prompt{color:#7fd49b}
@@ -174,20 +175,11 @@
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
 
-    <div class="term" aria-hidden="true">
-      <div class="dots"><i style="background:#f0605c"></i><i style="background:#f0c36b"></i><i style="background:#7fd49b"></i></div>
-      <div><span class="prompt">›</span> design review checkout.tsx</div>
-      <div class="dim">— reviewing against 10 craft dimensions…</div>
-      <br>
-      <div><span class="red">🔴 Blocking</span> · "Pay" button contrast 2.8:1 (fails AA)</div>
-      <div class="dim">  fix: darken bg to #c94e2c → 4.7:1</div>
-      <div><span class="amber">🟠 Important</span> · no focus-visible state on inputs</div>
-      <div class="dim">  fix: add :focus-visible ring, 2px persimmon</div>
-      <div><span class="yellow">🟡 Polish</span> · headline line-height 1.5 too loose</div>
-      <div class="dim">  fix: set 1.1 for display sizes</div>
-      <br>
-      <div class="prompt">✓ 3 findings · run with --apply to fix</div>
-    </div>
+    <video class="demo-video" autoplay muted loop playsinline preload="metadata"
+           poster="designcrit-poster.jpg"
+           aria-label="design-review reviewing a UI live in the terminal">
+      <source src="designcrit.mp4" type="video/mp4" />
+    </video>
   </header>
 
   <section id="how">
@@ -327,7 +319,11 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
 
 <script>
 (function () {
-  if (!document.documentElement.classList.contains("js-anim")) return;
+  // Pause the demo video for prefers-reduced-motion users (show poster instead)
+  const _rm = !document.documentElement.classList.contains("js-anim");
+  const _dv = document.querySelector(".demo-video");
+  if (_rm && _dv) { _dv.removeAttribute("autoplay"); _dv.pause(); }
+  if (_rm) return;
   const stagger = (els, ms) => els.forEach((el, i) => { el.style.transitionDelay = i * ms + "ms"; });
   stagger(document.querySelectorAll(".hero > *"), 90);
   stagger(document.querySelectorAll(".grid > .card"), 70);
