@@ -103,6 +103,18 @@
     html{scroll-behavior:auto}
     .btn-primary:hover{transform:none}
   }
+  @media (max-width:640px){
+    .wrap{padding:0 18px}
+    nav{padding:18px 0}
+    .hero{padding:44px 0 36px}
+    h1{font-size:38px;line-height:1.05;margin-bottom:16px}
+    .sub{font-size:17px}
+    section{padding:48px 0}
+    h2{font-size:30px;margin-bottom:24px}
+    .dims{grid-template-columns:1fr;gap:0}
+    .tier{padding:26px}
+    .term{font-size:12px;padding:16px}
+  }
 </style>
 </head>
 <body>
@@ -142,12 +154,12 @@
     <div class="eyebrow">What it does</div>
     <h2>Reviews like a <span class="serif italic">design lead</span> would.</h2>
     <div class="grid">
-      <div class="card"><span class="ic" aria-hidden="true">🎯</span><h3>Ranked, not a dump</h3><p>Findings sorted blocking → important → polish, so you fix what matters first.</p></div>
-      <div class="card"><span class="ic" aria-hidden="true">📐</span><h3>Real thresholds</h3><p>WCAG contrast ratios, 45–75ch measure, motion timing, 44px tap targets — numbers, not opinions.</p></div>
-      <div class="card"><span class="ic" aria-hidden="true">🖼️</span><h3>URL, image, or code</h3><p>Critique a live page, a screenshot, or a component file with line-level references.</p></div>
-      <div class="card"><span class="ic" aria-hidden="true">⚡</span><h3>Auto-apply fixes</h3><p>Run with <code>--apply</code> and it edits the safe ones — contrast, focus states, alt text, reduced-motion.</p></div>
-      <div class="card"><span class="ic" aria-hidden="true">♿</span><h3>Accessibility built in</h3><p>Semantics, focus order, labels, contrast, and reduced-motion checked every pass.</p></div>
-      <div class="card"><span class="ic" aria-hidden="true">✨</span><h3>Names the strengths</h3><p>Ends with what's working and the single highest-leverage change to make first.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">🎯</span><h3>Fix what matters first</h3><p>Every finding ranked blocking → important → polish — so you ship the critical stuff and skip the bikeshedding.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">📐</span><h3>Receipts, not opinions</h3><p>Real numbers behind every call: WCAG contrast, 45–75ch line length, 44px tap targets. Never "make it pop."</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">🖼️</span><h3>Reviews anything you've got</h3><p>A live URL, a screenshot, or a raw component — it reads the code and cites the exact line.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">⚡</span><h3>It doesn't just flag — it fixes</h3><p>Run <code>--apply</code> and watch it rewrite contrast, focus states, alt text and motion, in place.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">♿</span><h3>Accessibility, every pass</h3><p>Contrast, semantics, focus order, labels and reduced-motion — caught automatically, not bolted on later.</p></div>
+      <div class="card"><span class="ic" aria-hidden="true">✨</span><h3>Tells you what's working</h3><p>Closes every review with your strengths and the one change that moves the needle most.</p></div>
     </div>
   </section>
 
