@@ -293,6 +293,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
       });
       if (!res.ok) throw new Error();
       ok.hidden = false; btn.textContent = "Done ✓"; form.email.disabled = true;
+      setTimeout(close, 1400);
     } catch (_) { err.hidden = false; btn.disabled = false; btn.textContent = orig; }
   });
 })();
