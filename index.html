@@ -112,6 +112,23 @@
 
   footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
   footer a{color:var(--ink-soft)}
+
+  /* micro-animations — entrance reveals (flash-free via .js-anim set before paint) */
+  .js-anim .hero>*,
+  .js-anim section>.eyebrow,
+  .js-anim section>h2,
+  .js-anim .dims>.dimr,
+  .js-anim #get .steps,
+  .js-anim #get pre{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,.84,.44,1),transform .7s cubic-bezier(.16,.84,.44,1),background .25s ease}
+  .js-anim .grid>.card,
+  .js-anim .price-grid>.tier{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,.84,.44,1),transform .7s cubic-bezier(.16,.84,.44,1),box-shadow .3s ease}
+  .is-in{opacity:1!important;transform:none!important}
+  /* hover delight (box-shadow/bg only on reveal targets — avoids transform conflicts) */
+  .card:hover{box-shadow:0 22px 46px -26px rgba(26,23,20,.32)}
+  .tier:hover{box-shadow:0 24px 50px -28px rgba(232,98,59,.3)}
+  .dimr:hover{background:rgba(232,98,59,.04)}
+  .logo b{display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  .logo:hover b{transform:rotate(-14deg) scale(1.12)}
   @media (prefers-reduced-motion: reduce){
     *{transition:none!important;animation:none!important}
     html{scroll-behavior:auto}
@@ -130,6 +147,7 @@
     .term{font-size:12px;padding:16px}
   }
 </style>
+<script>try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js-anim');}catch(e){}</script>
 </head>
 <body>
 <div class="wrap">
@@ -296,6 +314,25 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
       setTimeout(close, 1400);
     } catch (_) { err.hidden = false; btn.disabled = false; btn.textContent = orig; }
   });
+})();
+</script>
+
+<script>
+(function () {
+  if (!document.documentElement.classList.contains("js-anim")) return;
+  const stagger = (els, ms) => els.forEach((el, i) => { el.style.transitionDelay = i * ms + "ms"; });
+  stagger(document.querySelectorAll(".hero > *"), 90);
+  stagger(document.querySelectorAll(".grid > .card"), 70);
+  stagger(document.querySelectorAll(".dims > .dimr"), 40);
+  stagger(document.querySelectorAll(".price-grid > .tier"), 80);
+  const targets = document.querySelectorAll(
+    ".hero > *, section > .eyebrow, section > h2, .grid > .card, .dims > .dimr, .price-grid > .tier, #get .steps, #get pre"
+  );
+  const io = new IntersectionObserver((ents, o) => {
+    ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); o.unobserve(en.target); } });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  targets.forEach((el) => io.observe(el));
+  setTimeout(() => targets.forEach((el) => el.classList.add("is-in")), 2600); // safety net
 })();
 </script>
 </body>
