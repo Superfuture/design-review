@@ -123,6 +123,9 @@
   .js-anim .grid>.card,
   .js-anim .price-grid>.tier{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,.84,.44,1),transform .7s cubic-bezier(.16,.84,.44,1),box-shadow .3s ease}
   .is-in{opacity:1!important;transform:none!important}
+  /* terminal: review types in line by line */
+  .js-anim .term>div:not(.dots){opacity:0;transform:translateY(4px);transition:opacity .3s ease,transform .3s ease}
+  .js-anim .term>div.tin{opacity:1;transform:none}
   /* hover delight (box-shadow/bg only on reveal targets — avoids transform conflicts) */
   .card:hover{box-shadow:0 22px 46px -26px rgba(26,23,20,.32)}
   .tier:hover{box-shadow:0 24px 50px -28px rgba(232,98,59,.3)}
@@ -333,6 +336,18 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
   targets.forEach((el) => io.observe(el));
   setTimeout(() => targets.forEach((el) => el.classList.add("is-in")), 2600); // safety net
+
+  // terminal: type the review in, line by line
+  const term = document.querySelector(".term");
+  if (term) {
+    const lines = term.querySelectorAll(":scope > div:not(.dots)");
+    const play = () => lines.forEach((el, i) => setTimeout(() => el.classList.add("tin"), 800 + i * 200));
+    const tio = new IntersectionObserver((ents, o) => {
+      ents.forEach((en) => { if (en.isIntersecting) { play(); o.disconnect(); } });
+    }, { threshold: 0.25 });
+    tio.observe(term);
+    setTimeout(() => lines.forEach((el) => el.classList.add("tin")), 4200); // safety
+  }
 })();
 </script>
 </body>
