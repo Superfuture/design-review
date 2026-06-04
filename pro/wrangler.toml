@@ -11,11 +11,15 @@ id = "52466658f2af435e82949d9224b4df91"
 [vars]
 FROM_ADDRESS = "forms@officialjp.com"
 TO_ADDRESS = "jprimiani@gmail.com"
+# Where Stripe sends buyers after payment (the activate.html page lives here).
+LANDING_URL = "https://crit.officialjp.com"
 
 [[send_email]]
 name = "EMAIL"
 destination_address = "jprimiani@gmail.com"
 
 # Secrets (NOT committed) — set with wrangler:
-#   npx wrangler secret put WEBHOOK_SECRET      # shared secret your store sends
-#   npx wrangler secret put ANTHROPIC_API_KEY   # optional, enables /report
+#   npx wrangler secret put STRIPE_SECRET_KEY      # sk_live_... (or sk_test_... to dry-run)
+#   npx wrangler secret put STRIPE_PRICE_ID        # price_... for the $12 one-time product
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRET  # whsec_... from the Stripe webhook endpoint
+#   npx wrangler secret put ANTHROPIC_API_KEY      # optional, enables /report

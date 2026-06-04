@@ -65,6 +65,57 @@ async function getLicense(env, key) {
   return raw ? JSON.parse(raw) : null;
 }
 
+// ── Stripe helpers ──────────────────────────────────────────────────────────
+const STRIPE_API = "https://api.stripe.com/v1";
+function stripeHeaders(env) {
+  return {
+    Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+}
+async function stripeGet(env, p) {
+  const r = await fetch(`${STRIPE_API}${p}`, { headers: stripeHeaders(env) });
+  return r.json();
+}
+async function stripePost(env, p, params) {
+  const r = await fetch(`${STRIPE_API}${p}`, {
+    method: "POST",
+    headers: stripeHeaders(env),
+    body: new URLSearchParams(params).toString(),
+  });
+  return r.json();
+}
+// One license key per Stripe Checkout session, idempotent (safe to call from both
+// the success-page claim and the webhook backstop).
+async function mintKeyForSession(env, sessionId, email, tier = "pro") {
+  const existing = await env.LICENSES.get(`sess:${sessionId}`);
+  if (existing) return existing;
+  const key = `dr_${crypto.randomUUID().replace(/-/g, "")}`;
+  await env.LICENSES.put(`lic:${key}`, JSON.stringify({
+    email, tier, active: true, created: new Date().toISOString(), session: sessionId,
+  }));
+  await env.LICENSES.put(`sess:${sessionId}`, key);
+  return key;
+}
+// Verify a Stripe webhook signature: HMAC-SHA256 over `${t}.${payload}`.
+async function stripeSigValid(secret, payload, sigHeader) {
+  if (!secret || !sigHeader) return false;
+  const parts = Object.fromEntries(
+    sigHeader.split(",").map((kv) => kv.split("=").map((s) => s.trim()))
+  );
+  if (!parts.t || !parts.v1) return false;
+  const enc = new TextEncoder();
+  const ck = await crypto.subtle.importKey(
+    "raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
+  );
+  const mac = await crypto.subtle.sign("HMAC", ck, enc.encode(`${parts.t}.${payload}`));
+  const hex = [...new Uint8Array(mac)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  if (hex.length !== parts.v1.length) return false;
+  let diff = 0;
+  for (let i = 0; i < hex.length; i++) diff |= hex.charCodeAt(i) ^ parts.v1.charCodeAt(i);
+  return diff === 0;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -85,7 +136,7 @@ export default {
     if (path === "/" && request.method === "GET") {
       return json(200, {
         service: "design-review-pro",
-        endpoints: ["/verify?key=", "POST /report", "POST /webhook"],
+        endpoints: ["/verify?key=", "GET /buy", "GET /claim?session_id=", "POST /webhook", "POST /report"],
       });
     }
 
@@ -112,23 +163,59 @@ export default {
       return json(200, { ok: true });
     }
 
-    // ── Issue a license (called by your store webhook) ───────────────────────
-    if (path === "/webhook" && request.method === "POST") {
-      if (request.headers.get("X-Webhook-Secret") !== env.WEBHOOK_SECRET) {
-        return json(401, { error: "Bad webhook secret" });
+    // ── Start Stripe checkout ────────────────────────────────────────────────
+    // Landing "Get Pro" links here. Creates a one-time Checkout Session and
+    // redirects to Stripe's hosted page. On success Stripe sends the buyer to
+    // <LANDING>/activate.html?session_id=... where the key is shown.
+    if (path === "/buy" && request.method === "GET") {
+      if (!env.STRIPE_SECRET_KEY || !env.STRIPE_PRICE_ID) {
+        return json(503, { error: "Checkout not configured yet" });
       }
-      let body;
-      try { body = await request.json(); } catch { return json(400, { error: "Invalid JSON" }); }
-      // Map your store's payload → a license. (Gumroad: body.email, body.product_permalink, etc.)
-      const email = String(body.email || "").trim();
-      const tier = String(body.tier || "pro").trim();
-      if (!email) return json(400, { error: "Missing email" });
-      const key = `dr_${crypto.randomUUID().replace(/-/g, "")}`;
-      await env.LICENSES.put(`lic:${key}`, JSON.stringify({
-        email, tier, active: true, created: new Date().toISOString(),
-      }));
-      // In production, email the key to the buyer (e.g. via Resend / Email Workers).
-      return json(200, { ok: true, key });
+      const landing = env.LANDING_URL || "https://crit.officialjp.com";
+      const session = await stripePost(env, "/checkout/sessions", {
+        mode: "payment",
+        "line_items[0][price]": env.STRIPE_PRICE_ID,
+        "line_items[0][quantity]": "1",
+        allow_promotion_codes: "true",
+        success_url: `${landing}/activate.html?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${landing}/#pricing`,
+      });
+      if (!session.url) {
+        return json(502, { error: "Stripe session failed", detail: session.error?.message });
+      }
+      return Response.redirect(session.url, 303);
+    }
+
+    // ── Claim the key after payment (called by activate.html) ────────────────
+    if (path === "/claim" && request.method === "GET") {
+      const sid = url.searchParams.get("session_id");
+      if (!sid) return json(400, { error: "Missing session_id" });
+      if (!env.STRIPE_SECRET_KEY) return json(503, { error: "Checkout not configured yet" });
+      const session = await stripeGet(env, `/checkout/sessions/${encodeURIComponent(sid)}`);
+      if (session.error) return json(502, { error: "Could not look up that session" });
+      if (session.payment_status !== "paid") return json(402, { error: "Payment not complete" });
+      const email = session.customer_details?.email || session.customer_email || "";
+      const key = await mintKeyForSession(env, sid, email);
+      return json(200, { ok: true, key, email });
+    }
+
+    // ── Stripe webhook (backstop: mint the key even if the buyer closes the tab)
+    if (path === "/webhook" && request.method === "POST") {
+      const payload = await request.text();
+      const valid = await stripeSigValid(
+        env.STRIPE_WEBHOOK_SECRET, payload, request.headers.get("Stripe-Signature")
+      );
+      if (!valid) return json(401, { error: "Bad signature" });
+      let event;
+      try { event = JSON.parse(payload); } catch { return json(400, { error: "Invalid JSON" }); }
+      if (event.type === "checkout.session.completed") {
+        const s = event.data.object;
+        if (s.payment_status === "paid") {
+          const email = s.customer_details?.email || s.customer_email || "";
+          await mintKeyForSession(env, s.id, email);
+        }
+      }
+      return json(200, { received: true });
     }
 
     // ── Deep report (the paid value; requires a valid key) ───────────────────

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Activate Crit Pro</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="app-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f7f4ee; --paper:#fffdf8; --ink:#1a1714; --ink-soft:#4a443d;
+    --muted:#645b52; --line:#e6ded2; --persimmon:#e8623b; --persimmon-deep:#c94e2c; --good:#1f9d6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;
+    -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:22px;max-width:520px;width:100%;
+    padding:40px 36px;box-shadow:0 30px 80px -30px rgba(26,23,20,.25)}
+  .dots{display:inline-flex;gap:6px;margin-bottom:22px}
+  .dots i{width:12px;height:12px;border-radius:50%;display:block}
+  .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+  h1{font-family:'Instrument Serif',serif;font-size:34px;line-height:1.1;margin-bottom:10px}
+  h1 .italic{font-style:italic;color:var(--persimmon)}
+  p{color:var(--ink-soft);font-size:15px}
+  .muted{color:var(--muted);font-size:13px}
+  .keywrap{margin:24px 0 8px}
+  .keylabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .keyrow{display:flex;gap:8px}
+  .key{flex:1;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;background:var(--cream);
+    border:1px solid var(--line);border-radius:11px;padding:13px 14px;word-break:break-all;color:var(--ink)}
+  button{cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--cream);border-radius:11px;
+    padding:0 16px;font:inherit;font-size:14px;font-weight:600;transition:.15s;white-space:nowrap}
+  button:hover{background:var(--persimmon);border-color:var(--persimmon)}
+  .steps{margin:22px 0 0;padding:18px;background:var(--cream);border-radius:14px;border:1px solid var(--line)}
+  .steps ol{margin:8px 0 0 18px;font-size:14px;color:var(--ink-soft)}
+  .steps li{margin:6px 0}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--paper);border:1px solid var(--line);
+    padding:1px 6px;border-radius:6px}
+  .save{color:var(--persimmon-deep);font-weight:600;font-size:13px;margin-top:14px}
+  .spin{display:inline-block;width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--persimmon);
+    border-radius:50%;animation:spin .7s linear infinite;vertical-align:-3px;margin-right:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  a{color:var(--persimmon-deep)}
+  .hide{display:none}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="dots"><i style="background:var(--persimmon)"></i><i style="background:#f5a623"></i><i style="background:#f5d423"></i></div>
+
+    <div id="loading">
+      <h1>Activating your <span class="italic">Pro</span> key…</h1>
+      <p><span class="spin"></span>Confirming your payment with Stripe.</p>
+    </div>
+
+    <div id="success" class="hide">
+      <h1>You're <span class="italic">Pro</span>. Here's your key.</h1>
+      <p>Paste this into Claude Code to unlock the full rubric.</p>
+      <div class="keywrap">
+        <div class="keylabel">License key</div>
+        <div class="keyrow">
+          <div class="key" id="key">—</div>
+          <button id="copy">Copy</button>
+        </div>
+      </div>
+      <p class="save">Save this now. It's also tied to your email, so reach out if you lose it.</p>
+      <div class="steps">
+        <strong>Activate in 10 seconds</strong>
+        <ol>
+          <li>In Claude Code, run <code>/design-review:activate &lt;your-key&gt;</code></li>
+          <li>Or paste the key when Crit first asks for it on a Pro feature.</li>
+          <li>Done. Mobile/SwiftUI rubric + brand-token checks unlock.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div id="error" class="hide">
+      <h1>Hmm, <span class="italic">one sec</span>.</h1>
+      <p id="errmsg">We couldn't confirm that payment yet.</p>
+      <p class="muted" style="margin-top:14px">If you just paid, refresh in a moment. Still stuck? Email
+        <a href="mailto:jprimiani@gmail.com">jprimiani@gmail.com</a> with your receipt and I'll send your key.</p>
+    </div>
+  </div>
+
+<script>
+  const WORKER = "https://design-review-pro.jprimiani.workers.dev";
+  const sid = new URLSearchParams(location.search).get("session_id");
+  const show = (id) => { ["loading","success","error"].forEach(x => document.getElementById(x).classList.toggle("hide", x !== id)); };
+
+  async function claim() {
+    if (!sid) { document.getElementById("errmsg").textContent = "No checkout session in the link."; return show("error"); }
+    try {
+      const res = await fetch(`${WORKER}/claim?session_id=${encodeURIComponent(sid)}`);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok || !data.key) {
+        document.getElementById("errmsg").textContent = data.error || "We couldn't confirm that payment yet.";
+        return show("error");
+      }
+      document.getElementById("key").textContent = data.key;
+      show("success");
+    } catch (e) {
+      document.getElementById("errmsg").textContent = "Network hiccup confirming your payment.";
+      show("error");
+    }
+  }
+  document.getElementById("copy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(document.getElementById("key").textContent); } catch (e) {}
+    const b = document.getElementById("copy"); b.textContent = "Copied"; setTimeout(() => (b.textContent = "Copy"), 1600);
+  });
+  claim();
+</script>
+</body>
+</html>
