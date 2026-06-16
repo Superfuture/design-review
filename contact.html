@@ -40,8 +40,20 @@
   button:disabled{opacity:.6;cursor:default}
   .msg{font-size:14px;font-weight:600;min-height:18px;margin-top:4px}
   .ok{font-size:17px;color:#3f7a4f;font-weight:600}
-  footer{border-top:1px solid var(--line);background:var(--paper);text-align:center;padding:22px;font-size:13px;color:var(--muted)}
-  footer a{color:var(--ink-soft)}
+  footer{border-top:1px solid var(--line);background:var(--paper)}
+  .foot-grid{max-width:980px;margin:0 auto;padding:48px 24px 30px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:28px}
+  .foot-brand .fmark{display:flex;gap:6px;margin-bottom:14px}
+  .foot-brand .fmark i{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .foot-brand p{font-size:14px;color:var(--ink-soft);max-width:280px;line-height:1.55;margin-bottom:14px}
+  .foot-made{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--ink);text-decoration:none}
+  .foot-made:hover{color:var(--persimmon)}
+  .foot-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:13px}
+  .foot-col{display:flex;flex-direction:column;gap:10px}
+  .foot-col a{font-size:14px;color:var(--ink-soft);text-decoration:none}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bar{max-width:980px;margin:0 auto;padding:16px 24px 30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  .foot-bar a{color:var(--ink-soft);text-decoration:none}
+  @media(max-width:720px){.foot-grid{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
   :focus-visible{outline:2px solid var(--persimmon);outline-offset:3px;border-radius:6px}
 </style>
 </head>
@@ -67,7 +79,39 @@
       </form>
     </div>
   </main>
-  <footer>Made by <a href="https://superfuturelabs.com" target="_blank" rel="noreferrer">Superfuture</a></footer>
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="fmark"><i style="background:#e0524a"></i><i style="background:#e8a23b"></i><i style="background:#c9c044"></i></div>
+        <p>A senior design critique in your terminal. Ranked findings, specific fixes, a Claude Code skill.</p>
+        <a class="foot-made" href="https://superfuturelabs.com" target="_blank" rel="noreferrer">Made by Superfuture <span style="color:var(--persimmon)">✦</span></a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Product</div>
+        <a href="/#get">Install</a>
+        <a href="/#how">How it works</a>
+        <a href="/#dims">Dimensions</a>
+        <a href="/#faq">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Pricing</div>
+        <a href="/#pricing">Free</a>
+        <a href="https://design-review-pro.jprimiani.workers.dev/buy">Get Pro</a>
+        <a href="activate.html">Activate a key</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">More</div>
+        <a href="https://github.com/Superfuture/design-review" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a href="https://x.com/jp" target="_blank" rel="noreferrer">X / Twitter ↗</a>
+        <a href="https://www.producthunt.com/posts/design-review" target="_blank" rel="noreferrer">Product Hunt ↗</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 Superfuture. All rights reserved.</span>
+      <span>Made by <a href="https://x.com/jp">Joey Primiani</a></span>
+    </div>
+  </footer>
 
 <script>
   const WORKER = "https://design-review-pro.jprimiani.workers.dev/contact";
