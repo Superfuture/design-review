@@ -19,7 +19,7 @@
   .italic{font-style:italic}
   .wrap{max-width:600px;margin:0 auto;padding:0 24px;width:100%}
   nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0;max-width:980px;margin:0 auto;width:100%}
-  .logo{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:.2px}
+  .logo{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:.2px;color:var(--ink);text-decoration:none}
   .logo b{color:var(--persimmon)}
   .nav-cta{font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:8px 16px;border-radius:999px;transition:.2s}
   .nav-cta:hover{background:var(--ink);color:var(--cream);border-color:var(--ink)}
@@ -54,7 +54,7 @@
     <div class="wrap">
       <span class="pill">Contact</span>
       <h1>Get in <span class="italic">touch.</span></h1>
-      <p class="sub">Support, license help, or a question about Pro? Send a note and I'll get back to you.</p>
+      <p class="sub">Support, license help, or a question about Pro? Send a note and we'll get back to you.</p>
       <form id="form">
         <div class="row">
           <div style="flex:1"><label for="name">Name</label><input id="name" name="name" required maxlength="120" autocomplete="name"></div>
@@ -89,7 +89,7 @@
       });
       const d = await r.json().catch(() => ({}));
       if (r.ok && d.ok) {
-        form.innerHTML = '<p class="ok">Thanks! Your message is on its way. I\'ll be in touch soon.</p>';
+        form.innerHTML = '<p class="ok">Thanks! Your message is on its way. We\'ll be in touch soon.</p>';
       } else { msg.style.color = "#c0392b"; msg.textContent = (d && d.error) || "Something went wrong, please try again."; btn.disabled = false; btn.textContent = old; }
     } catch (_) { msg.style.color = "#c0392b"; msg.textContent = "Network error, please try again."; btn.disabled = false; btn.textContent = old; }
   });
