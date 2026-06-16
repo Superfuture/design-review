@@ -227,7 +227,21 @@ export default {
       }
       let body;
       try { body = await request.json(); } catch { return json(400, { error: "Invalid JSON" }); }
-      const notes = String(body.notes || "").slice(0, 12000);
+      const notes = String(body.notes || "").slice(0, 16000);
+      const target = String(body.target || "a UI").slice(0, 200);
+      if (!notes) return json(400, { error: "Missing notes (the UI to review)" });
+
+      // The PRO rubric lives only here, server-side. This is the paid moat:
+      // depth that is not in the public skill files.
+      const SYS = `You are a senior product design lead running a PRO-tier critique. `
+        + `Review across all ten craft dimensions: visual hierarchy & layout; typography; spacing & rhythm; `
+        + `color & contrast (do the WCAG AA math, give ratios); motion; component states (hover/focus/active/disabled, loading/empty/error); `
+        + `accessibility (semantics, labels, keyboard, reduced-motion); responsiveness (320 to 1440+); content & copy; consistency & brand. `
+        + `Then add PRO depth the free tier does not cover:\n`
+        + `- Mobile & SwiftUI patterns: safe-area insets, Dynamic Type, tap targets >= 44pt, native vs custom controls, haptics, list/scroll behavior.\n`
+        + `- Brand-token consistency: are colors, spacing, radii, shadows and type drawn from a single coherent token set? Flag every one-off value with the token it should use.\n\n`
+        + `Rank findings blocking -> important -> polish. For each: What (quote the element), Why (one line), Fix (exact value, not "increase spacing"). `
+        + `End with "Strengths" (2-4) and the single highest-leverage change to make first. Be specific and concise. Do not use em dashes.`;
 
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -237,13 +251,12 @@ export default {
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model: "claude-opus-4-7",
-          max_tokens: 2000,
+          model: "claude-sonnet-4-6",
+          max_tokens: 3200,
+          system: SYS,
           messages: [{
             role: "user",
-            content: `You are a senior product design lead. Produce a detailed, prioritized design `
-              + `critique (blocking → important → polish), with specific fixes and exact values, for `
-              + `the following UI:\n\n${notes}`,
+            content: `Target: ${target}\n\nUI to review (code, URL, and/or observations):\n\n${notes}\n\nReturn the full Pro critique.`,
           }],
         }),
       });

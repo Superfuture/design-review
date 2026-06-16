@@ -119,7 +119,29 @@
   .wl-success{color:#1a7f4b}
   .wl-error{color:#ef4444}
 
-  footer{padding:48px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
+  /* faq */
+  .faq{display:grid;gap:10px;max-width:760px}
+  .faq details{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:2px 20px}
+  .faq summary{cursor:pointer;font-weight:600;font-size:16px;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:after{content:"+";color:var(--persimmon);font-size:22px;font-weight:500;transition:transform .2s}
+  .faq details[open] summary:after{transform:rotate(45deg)}
+  .faq details p{padding-bottom:16px;margin:0;font-size:15px;color:var(--ink-soft);line-height:1.6}
+  .faq details p a{color:var(--persimmon)}
+  /* footer */
+  footer{border-top:1px solid var(--line);background:var(--paper)}
+  .foot-grid{max-width:980px;margin:0 auto;padding:48px 24px 30px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:28px}
+  .foot-brand .fmark{display:flex;gap:6px;margin-bottom:14px}
+  .foot-brand .fmark i{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .foot-brand p{font-size:14px;color:var(--ink-soft);max-width:280px;line-height:1.55;margin-bottom:14px}
+  .foot-made{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--ink);text-decoration:none}
+  .foot-made:hover{color:var(--persimmon)}
+  .foot-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:13px}
+  .foot-col{display:flex;flex-direction:column;gap:10px}
+  .foot-col a{font-size:14px;color:var(--ink-soft);text-decoration:none}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bar{max-width:980px;margin:0 auto;padding:16px 24px 30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  @media(max-width:720px){.foot-grid{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
   footer a{color:var(--ink-soft)}
 
   /* micro-animations — entrance reveals (flash-free via .js-anim set before paint) */
@@ -286,8 +308,50 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
     </div>
   </section>
 
+  <section id="faq">
+    <div class="eyebrow">FAQ</div>
+    <h2>Questions, <span class="serif italic">answered.</span></h2>
+    <div class="faq">
+      <details open><summary>What is design-review?</summary><p>A Claude Code skill that runs a senior-level design critique of any URL, screenshot, or component, ranked from blocking to polish, each finding with a specific fix you can auto-apply.</p></details>
+      <details><summary>What's the difference between Free and Pro?</summary><p>Free is the full skill and rubric, run locally in your terminal. Pro adds depth the free tier doesn't cover: an expanded mobile &amp; SwiftUI rubric and brand-token consistency checks, generated server-side so it stays current.</p></details>
+      <details><summary>How do I activate Pro?</summary><p>After checkout you get a license key on the activation page. In Claude Code run <code>/design-review:activate &lt;your-key&gt;</code>, or paste the key when Crit first asks on a Pro review. Your Pro reviews then include the extra depth.</p></details>
+      <details><summary>Is it a subscription?</summary><p>No. Pro is a one-time $12 unlock. Team is a separate plan, currently by waitlist.</p></details>
+      <details><summary>I lost my key.</summary><p>It's tied to your email. Email <a href="mailto:jprimiani@gmail.com">jprimiani@gmail.com</a> and we'll resend it.</p></details>
+      <details><summary>Refunds?</summary><p>If Pro isn't earning its place, email <a href="mailto:jprimiani@gmail.com">jprimiani@gmail.com</a> within 14 days for a refund.</p></details>
+    </div>
+  </section>
+
   <footer>
-    Made by <a href="https://x.com/jp">Joey Primiani</a> · a Claude Code skill · <a href="#get">install</a> · <a href="https://www.producthunt.com/posts/design-review" target="_blank" rel="noopener">live on Product Hunt ↗</a>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="fmark"><i style="background:#e0524a"></i><i style="background:#e8a23b"></i><i style="background:#c9c044"></i></div>
+        <p>A senior design critique in your terminal. Ranked findings, specific fixes, a Claude Code skill.</p>
+        <a class="foot-made" href="https://superfuturelabs.com" target="_blank" rel="noreferrer">Made by Superfuture <span style="color:var(--persimmon)">✦</span></a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Product</div>
+        <a href="#get">Install</a>
+        <a href="#how">How it works</a>
+        <a href="#dims">Dimensions</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Pricing</div>
+        <a href="#">Free</a>
+        <a href="https://design-review-pro.jprimiani.workers.dev/buy">Get Pro</a>
+        <a href="activate.html">Activate a key</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">More</div>
+        <a href="https://github.com/Superfuture/design-review" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a href="https://x.com/jp" target="_blank" rel="noreferrer">X / Twitter ↗</a>
+        <a href="https://www.producthunt.com/posts/design-review" target="_blank" rel="noreferrer">Product Hunt ↗</a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 Superfuture. All rights reserved.</span>
+      <span>Made by <a href="https://x.com/jp" style="color:var(--ink-soft)">Joey Primiani</a></span>
+    </div>
   </footer>
 
 </div>
