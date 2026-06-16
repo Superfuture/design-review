@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Contact · design-review</title>
+<meta name="description" content="Get in touch about design-review (Crit): support, license help, or questions." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='22' r='13' fill='%23e0524a'/><circle cx='50' cy='50' r='13' fill='%23e8a23b'/><circle cx='50' cy='78' r='13' fill='%23c9c044'/></svg>" />
+<link rel="apple-touch-icon" href="app-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#f7f4ee;--paper:#fffdf8;--ink:#1a1714;--ink-soft:#4a443d;--muted:#645b52;--line:#e6ded2;--persimmon:#e8623b;--persimmon-deep:#c94e2c;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  .serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+  .italic{font-style:italic}
+  .wrap{max-width:600px;margin:0 auto;padding:0 24px;width:100%}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0;max-width:980px;margin:0 auto;width:100%}
+  .logo{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:.2px}
+  .logo b{color:var(--persimmon)}
+  .nav-cta{font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:8px 16px;border-radius:999px;transition:.2s}
+  .nav-cta:hover{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+  main{flex:1;padding:48px 0 80px}
+  .pill{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a8401e;background:rgba(232,98,59,.1);padding:6px 14px;border-radius:999px;margin-bottom:20px}
+  h1{font-family:'Instrument Serif',serif;font-size:clamp(38px,7vw,60px);line-height:1.02;margin-bottom:14px}
+  h1 .italic{color:var(--persimmon)}
+  .sub{font-size:17px;color:var(--ink-soft);margin-bottom:32px}
+  form{display:flex;flex-direction:column;gap:14px}
+  .row{display:flex;gap:14px}@media(max-width:520px){.row{flex-direction:column}}
+  label{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block}
+  input,textarea{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:12px;font-size:16px;font-family:inherit;color:var(--ink);background:var(--paper)}
+  input:focus,textarea:focus{outline:none;border-color:var(--persimmon);box-shadow:0 0 0 3px rgba(232,98,59,.15)}
+  textarea{resize:vertical;min-height:130px}
+  .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+  button{margin-top:6px;background:var(--ink);color:var(--cream);border:none;font-family:inherit;font-size:16px;font-weight:600;padding:15px;border-radius:14px;cursor:pointer;transition:.2s}
+  button:hover{background:var(--persimmon)}
+  button:disabled{opacity:.6;cursor:default}
+  .msg{font-size:14px;font-weight:600;min-height:18px;margin-top:4px}
+  .ok{font-size:17px;color:#3f7a4f;font-weight:600}
+  footer{border-top:1px solid var(--line);background:var(--paper);text-align:center;padding:22px;font-size:13px;color:var(--muted)}
+  footer a{color:var(--ink-soft)}
+  :focus-visible{outline:2px solid var(--persimmon);outline-offset:3px;border-radius:6px}
+</style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="/">design<b>·</b>review</a>
+    <a class="nav-cta" href="/#pricing">Pricing</a>
+  </nav>
+  <main>
+    <div class="wrap">
+      <span class="pill">Contact</span>
+      <h1>Get in <span class="italic">touch.</span></h1>
+      <p class="sub">Support, license help, or a question about Pro? Send a note and I'll get back to you.</p>
+      <form id="form">
+        <div class="row">
+          <div style="flex:1"><label for="name">Name</label><input id="name" name="name" required maxlength="120" autocomplete="name"></div>
+          <div style="flex:1"><label for="email">Email</label><input id="email" name="email" type="email" required maxlength="200" autocomplete="email"></div>
+        </div>
+        <div><label for="message">Message</label><textarea id="message" name="message" maxlength="5000" placeholder="How can I help?"></textarea></div>
+        <input class="hp" tabindex="-1" autocomplete="off" id="company_url" name="company_url" aria-hidden="true">
+        <button type="submit" id="btn">Send message</button>
+        <div class="msg" id="msg"></div>
+      </form>
+    </div>
+  </main>
+  <footer>Made by <a href="https://superfuturelabs.com" target="_blank" rel="noreferrer">Superfuture</a></footer>
+
+<script>
+  const WORKER = "https://design-review-pro.jprimiani.workers.dev/contact";
+  const form = document.getElementById("form");
+  const btn = document.getElementById("btn");
+  const msg = document.getElementById("msg");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    btn.disabled = true; const old = btn.textContent; btn.textContent = "Sending…"; msg.textContent = "";
+    try {
+      const r = await fetch(WORKER, {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value,
+          company_url: document.getElementById("company_url").value,
+        }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (r.ok && d.ok) {
+        form.innerHTML = '<p class="ok">Thanks! Your message is on its way. I\'ll be in touch soon.</p>';
+      } else { msg.style.color = "#c0392b"; msg.textContent = (d && d.error) || "Something went wrong, please try again."; btn.disabled = false; btn.textContent = old; }
+    } catch (_) { msg.style.color = "#c0392b"; msg.textContent = "Network error, please try again."; btn.disabled = false; btn.textContent = old; }
+  });
+</script>
+</body>
+</html>

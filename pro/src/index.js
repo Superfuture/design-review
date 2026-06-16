@@ -53,6 +53,33 @@ async function notify(env, { email, tier }) {
   } catch (_) { /* don't fail the signup if email send hiccups */ }
 }
 
+async function notifyContact(env, { name, email, message }) {
+  if (!env.EMAIL || !env.FROM_ADDRESS || !env.TO_ADDRESS) return;
+  const subject = `Crit contact — ${name}`;
+  const body = [
+    "New message from the Crit contact form:",
+    "",
+    `Name:  ${name}`,
+    `Email: ${email}`,
+    `Time:  ${new Date().toISOString()}`,
+    "",
+    message || "(no message)",
+  ].join("\n");
+  const raw = [
+    `From: design-review <${env.FROM_ADDRESS}>`,
+    `To: ${env.TO_ADDRESS}`,
+    `Reply-To: ${email}`,
+    `Subject: =?UTF-8?B?${b64utf8(subject)}?=`,
+    "MIME-Version: 1.0",
+    'Content-Type: text/plain; charset="utf-8"',
+    "",
+    body,
+  ].join("\r\n");
+  try {
+    await env.EMAIL.send(new EmailMessage(env.FROM_ADDRESS, env.TO_ADDRESS, raw));
+  } catch (_) { /* best effort */ }
+}
+
 const json = (status, obj) =>
   new Response(JSON.stringify(obj), {
     status,
@@ -160,6 +187,21 @@ export default {
         JSON.stringify({ email, tier, ts: new Date().toISOString() })
       );
       await notify(env, { email, tier });
+      return json(200, { ok: true });
+    }
+
+    // ── Contact form (emails you) ────────────────────────────────────────────
+    if (path === "/contact" && request.method === "POST") {
+      let body;
+      try { body = await request.json(); } catch { return json(400, { error: "Invalid JSON" }); }
+      if (String(body.company_url || "").trim()) return json(200, { ok: true }); // honeypot
+      const name = String(body.name || "").trim().slice(0, 120);
+      const email = String(body.email || "").trim().slice(0, 200);
+      const message = String(body.message || "").trim().slice(0, 5000);
+      if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return json(400, { error: "A name and a valid email are required" });
+      }
+      await notifyContact(env, { name, email, message });
       return json(200, { ok: true });
     }
 

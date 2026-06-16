@@ -120,7 +120,7 @@
   .wl-error{color:#ef4444}
 
   /* faq */
-  .faq{display:grid;gap:10px;max-width:760px}
+  .faq{display:grid;gap:10px}
   .faq details{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:2px 20px}
   .faq summary{cursor:pointer;font-weight:600;font-size:16px;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
   .faq summary::-webkit-details-marker{display:none}
@@ -316,12 +316,13 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
       <details><summary>What's the difference between Free and Pro?</summary><p>Free is the full skill and rubric, run locally in your terminal. Pro adds depth the free tier doesn't cover: an expanded mobile &amp; SwiftUI rubric and brand-token consistency checks, generated server-side so it stays current.</p></details>
       <details><summary>How do I activate Pro?</summary><p>After checkout you get a license key on the activation page. In Claude Code run <code>/design-review:activate &lt;your-key&gt;</code>, or paste the key when Crit first asks on a Pro review. Your Pro reviews then include the extra depth.</p></details>
       <details><summary>Is it a subscription?</summary><p>No. Pro is a one-time $12 unlock. Team is a separate plan, currently by waitlist.</p></details>
-      <details><summary>I lost my key.</summary><p>It's tied to your email. Email <a href="mailto:jprimiani@gmail.com">jprimiani@gmail.com</a> and we'll resend it.</p></details>
-      <details><summary>Refunds?</summary><p>If Pro isn't earning its place, email <a href="mailto:jprimiani@gmail.com">jprimiani@gmail.com</a> within 14 days for a refund.</p></details>
+      <details><summary>I lost my key.</summary><p>It's tied to your email. <a href="contact.html">Get in touch</a> and we'll resend it.</p></details>
+      <details><summary>Refunds?</summary><p>If Pro isn't earning its place, <a href="contact.html">contact us</a> within 14 days for a refund.</p></details>
     </div>
   </section>
+</div><!-- /.wrap -->
 
-  <footer>
+<footer>
     <div class="foot-grid">
       <div class="foot-brand">
         <div class="fmark"><i style="background:#e0524a"></i><i style="background:#e8a23b"></i><i style="background:#c9c044"></i></div>
@@ -346,6 +347,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
         <a href="https://github.com/Superfuture/design-review" target="_blank" rel="noreferrer">GitHub ↗</a>
         <a href="https://x.com/jp" target="_blank" rel="noreferrer">X / Twitter ↗</a>
         <a href="https://www.producthunt.com/posts/design-review" target="_blank" rel="noreferrer">Product Hunt ↗</a>
+        <a href="contact.html">Contact</a>
       </div>
     </div>
     <div class="foot-bar">
@@ -353,8 +355,6 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
       <span>Made by <a href="https://x.com/jp" style="color:var(--ink-soft)">Joey Primiani</a></span>
     </div>
   </footer>
-
-</div>
 
 <div class="modal-overlay" id="waitlistModal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
