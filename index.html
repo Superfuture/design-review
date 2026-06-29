@@ -7,6 +7,13 @@
 <meta name="description" content="A Claude Code skill that runs a sharp, prioritized design critique of any URL, screenshot, or component, across hierarchy, type, spacing, contrast, motion, and accessibility, with specific fixes you can auto-apply." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='22' r='13' fill='%23e0524a'/><circle cx='50' cy='50' r='13' fill='%23e8a23b'/><circle cx='50' cy='78' r='13' fill='%23c9c044'/></svg>" />
 <link rel="apple-touch-icon" href="app-icon.png" />
+<!-- Superfuture Command Center (cookieless, anonymous, no PII) -->
+<script>
+  fetch('https://superfuture-metrics.pages.dev/api/ingest', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ app: 'Design Review', event: 'app_open' })
+  }).catch(function () {});
+</script>
 <!-- Open Graph / Twitter -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="design-review: a senior design critique in your terminal" />
