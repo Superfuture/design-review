@@ -86,6 +86,17 @@ const json = (status, obj) =>
     headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
   });
 
+// Anonymous funnel event → Superfuture Command Center. Event name only, no user
+// content; anonId omitted so ingest derives its cookieless per-day hash.
+function track(ctx, event) {
+  const p = fetch("https://superfuture-metrics.pages.dev/api/ingest", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ app: "Design Review", event }),
+  }).catch(() => {});
+  ctx?.waitUntil?.(p);
+}
+
 async function getLicense(env, key) {
   if (!key) return null;
   const raw = await env.LICENSES.get(`lic:${key}`);
@@ -116,13 +127,13 @@ async function stripePost(env, p, params) {
 // the success-page claim and the webhook backstop).
 async function mintKeyForSession(env, sessionId, email, tier = "pro") {
   const existing = await env.LICENSES.get(`sess:${sessionId}`);
-  if (existing) return existing;
+  if (existing) return { key: existing, minted: false };
   const key = `dr_${crypto.randomUUID().replace(/-/g, "")}`;
   await env.LICENSES.put(`lic:${key}`, JSON.stringify({
     email, tier, active: true, created: new Date().toISOString(), session: sessionId,
   }));
   await env.LICENSES.put(`sess:${sessionId}`, key);
-  return key;
+  return { key, minted: true };
 }
 // Verify a Stripe webhook signature: HMAC-SHA256 over `${t}.${payload}`.
 async function stripeSigValid(secret, payload, sigHeader) {
@@ -144,7 +155,7 @@ async function stripeSigValid(secret, payload, sigHeader) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, "") || "/";
 
@@ -170,7 +181,10 @@ export default {
     // ── Verify a license (the core gate) ─────────────────────────────────────
     if (path === "/verify" && request.method === "GET") {
       const lic = await getLicense(env, url.searchParams.get("key"));
-      if (lic?.active) return json(200, { valid: true, tier: lic.tier, email: lic.email });
+      if (lic?.active) {
+        track(ctx, "pro_activate");
+        return json(200, { valid: true, tier: lic.tier, email: lic.email });
+      }
       return json(200, { valid: false });
     }
 
@@ -225,6 +239,7 @@ export default {
       if (!session.url) {
         return json(502, { error: "Stripe session failed", detail: session.error?.message });
       }
+      track(ctx, "checkout_start");
       return Response.redirect(session.url, 303);
     }
 
@@ -237,7 +252,8 @@ export default {
       if (session.error) return json(502, { error: "Could not look up that session" });
       if (session.payment_status !== "paid") return json(402, { error: "Payment not complete" });
       const email = session.customer_details?.email || session.customer_email || "";
-      const key = await mintKeyForSession(env, sid, email);
+      const { key, minted } = await mintKeyForSession(env, sid, email);
+      if (minted) track(ctx, "purchase");
       return json(200, { ok: true, key, email });
     }
 
@@ -254,7 +270,8 @@ export default {
         const s = event.data.object;
         if (s.payment_status === "paid") {
           const email = s.customer_details?.email || s.customer_email || "";
-          await mintKeyForSession(env, s.id, email);
+          const { minted } = await mintKeyForSession(env, s.id, email);
+          if (minted) track(ctx, "purchase");
         }
       }
       return json(200, { received: true });
@@ -304,6 +321,7 @@ export default {
       });
       if (!res.ok) return json(502, { error: "Upstream error", status: res.status });
       const data = await res.json();
+      track(ctx, "pro_report");
       return json(200, { report: data.content?.[0]?.text ?? "", tier: lic.tier });
     }
 

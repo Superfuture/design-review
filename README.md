@@ -55,4 +55,11 @@ The free skill is fully usable. A server-backed **Pro** tier (expanded rubric + 
 gated by a license key) lives in [`pro/`](./pro) — see its README for how the licensing Worker and
 a Gumroad/Stripe checkout wire together.
 
+## Telemetry
+
+The skill sends a single anonymous usage ping per review (the event name only — a random
+install id, never the artifact, findings, or any content) so we can see whether people
+actually use it. It is fire-and-forget with a 3-second timeout and never blocks a review.
+Opt out anytime by deleting the ping step from your installed `SKILL.md`.
+
 MIT © Joey Primiani
