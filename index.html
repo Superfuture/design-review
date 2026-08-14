@@ -35,8 +35,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#f7f4ee; --paper:#fffdf8; --ink:#1a1714; --ink-soft:#4a443d;
-    --muted:#645b52; --line:#e6ded2; --persimmon:#e8623b; --persimmon-deep:#c94e2c;
+    --cream:#ffffff; --paper:#faf9f6; --ink:#1a1714; --ink-soft:#4a443d;
+    --muted:#645b52; --line:#e9e6e0; --persimmon:#e8623b; --persimmon-deep:#c94e2c;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -54,7 +54,8 @@
 
   /* hero */
   .hero{padding:72px 0 56px;text-align:center}
-  .pill{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a8401e;background:rgba(232,98,59,.1);padding:6px 14px;border-radius:999px;margin-bottom:24px}
+  .icn{display:inline-block;width:15px;height:15px;vertical-align:-2.5px;margin-right:7px}
+  .pill{display:inline-flex;align-items:center;gap:0;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a8401e;background:rgba(232,98,59,.1);padding:6px 14px;border-radius:999px;margin-bottom:24px}
   h1{font-family:'Instrument Serif',serif;font-size:clamp(44px,8vw,82px);line-height:1.02;letter-spacing:-.01em;margin-bottom:20px}
   h1 .italic{color:var(--persimmon)}
   .sub{font-size:clamp(17px,2.4vw,21px);color:var(--ink-soft);max-width:560px;margin:0 auto 36px}
@@ -203,7 +204,7 @@
   </nav>
 
   <header class="hero">
-    <span class="pill">Claude Code skill</span>
+    <span class="pill"><svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#D97757" stroke-width="3.4" stroke-linecap="round"><line x1="12" y1="2.6" x2="12" y2="8.2"/><line x1="12" y1="15.8" x2="12" y2="21.4"/><line x1="2.6" y1="12" x2="8.2" y2="12"/><line x1="15.8" y1="12" x2="21.4" y2="12"/><line x1="5.4" y1="5.4" x2="9.3" y2="9.3"/><line x1="14.7" y1="14.7" x2="18.6" y2="18.6"/><line x1="18.6" y1="5.4" x2="14.7" y2="9.3"/><line x1="9.3" y1="14.7" x2="5.4" y2="18.6"/></g></svg>Claude Code &amp; <svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg>Figma skill</span>
     <h1>A senior design<br><span class="italic">critique</span>, in your terminal.</h1>
     <p class="sub">Point it at a URL, a screenshot, or a component. Get ranked, specific findings, then let it apply the fixes.&nbsp;<br class="dt">Craft standards, not vibes.</p>
     <div class="btns">
@@ -286,7 +287,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
       <div class="step"><div class="n">2</div><p>Then just ask: <em>"design review officialjp.com"</em> or <em>"critique this paywall screenshot."</em></p></div>
     </div>
     <div style="margin-top:28px;padding:20px 24px;border:1px solid var(--line);border-radius:16px;background:var(--paper);display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between">
-      <p style="margin:0"><strong>Design in Figma?</strong> Crit is also a Figma skill: the same senior critique, right inside your file.</p>
+      <p style="margin:0"><svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg><strong>Design in Figma?</strong> Crit is also a Figma skill: the same senior critique, right inside your file.</p>
       <a class="btn btn-ghost" href="https://www.figma.com/community/skill/65434/superfuture-design-review" target="_blank" rel="noreferrer">Get it on Figma Community ↗</a>
     </div>
   </section>
@@ -338,7 +339,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
     <div class="foot-grid">
       <div class="foot-brand">
         <div class="fmark"><i style="background:#e0524a"></i><i style="background:#e8a23b"></i><i style="background:#c9c044"></i></div>
-        <p>A senior design critique in your terminal. Ranked findings, specific fixes, a Claude Code skill.</p>
+        <p>A senior design critique in your terminal or your Figma file. Ranked findings, specific fixes, a Claude Code &amp; Figma skill.</p>
         <a class="foot-made" href="https://superfuturelabs.com" target="_blank" rel="noreferrer">Made by Superfuture <span style="color:var(--persimmon)">✦</span></a>
       </div>
       <div class="foot-col">
