@@ -65,7 +65,10 @@
   .btn-primary:hover{background:var(--persimmon);transform:translateY(-1px)}
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{border-color:var(--ink)}
-  .btn:focus-visible,.nav-cta:focus-visible,footer a:focus-visible{outline:2px solid var(--persimmon);outline-offset:3px;border-radius:6px}
+  .btn:focus-visible,.nav-cta:focus-visible,.hero-feat:focus-visible,footer a:focus-visible{outline:2px solid var(--persimmon);outline-offset:3px;border-radius:6px}
+  .hero-feat{display:inline-flex;align-items:center;margin-top:28px;font-size:13.5px;font-weight:500;color:var(--muted);text-decoration:none;border:1px solid var(--line);background:var(--paper);padding:9px 18px;border-radius:999px;transition:.2s}
+  .hero-feat:hover{color:var(--ink);border-color:var(--ink)}
+  .hero-feat b{color:var(--ink);font-weight:600;margin:0 4px}
 
   /* terminal demo */
   .term{max-width:680px;margin:48px auto 0;background:#14110e;border-radius:16px;padding:20px 22px;overflow-x:auto;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.7;color:#d9d2c6;box-shadow:0 24px 60px -24px rgba(26,23,20,.5)}
@@ -212,6 +215,8 @@
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
 
+    <a class="hero-feat" href="https://www.figma.com/blog/try-these-10-skills-and-show-off-your-own/" target="_blank" rel="noreferrer"><svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg>Featured in<b>Figma's 10 skills to try</b>↗</a>
+
     <div class="term" aria-hidden="true">
       <div class="dots"><i style="background:#f0605c"></i><i style="background:#f0c36b"></i><i style="background:#7fd49b"></i></div>
       <div><span class="prompt">›</span> design review checkout.tsx</div>
@@ -274,7 +279,7 @@
     <div class="eyebrow">Install</div>
     <h2>Up and running in <span class="serif italic">30 seconds</span>.</h2>
     <div style="margin:4px 0 24px;padding:18px 22px;border:1px solid var(--line);border-radius:16px;background:var(--paper);display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between">
-      <p style="margin:0"><svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg><strong>Designing in Figma?</strong> Skip the terminal: the same senior critique, right inside your file.</p>
+      <p style="margin:0"><svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg><strong>Designing in Figma?</strong> Skip the terminal: the same senior critique, right inside your file. Featured in <a href="https://www.figma.com/blog/try-these-10-skills-and-show-off-your-own/" target="_blank" rel="noreferrer" style="color:var(--persimmon-deep);font-weight:500">Figma's 10 skills to try&nbsp;↗</a>.</p>
       <a class="btn btn-ghost" href="https://www.figma.com/community/skill/65434/superfuture-design-review" target="_blank" rel="noreferrer">Get it on Figma Community ↗</a>
     </div>
     <div class="steps">
@@ -359,6 +364,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
       <div class="foot-col">
         <div class="foot-h">More</div>
         <a href="https://www.figma.com/community/skill/65434/superfuture-design-review" target="_blank" rel="noreferrer">Figma skill ↗</a>
+        <a href="https://www.figma.com/blog/try-these-10-skills-and-show-off-your-own/" target="_blank" rel="noreferrer">Featured on the Figma blog ↗</a>
         <a href="https://github.com/Superfuture/design-review" target="_blank" rel="noreferrer">GitHub ↗</a>
         <a href="https://x.com/jp" target="_blank" rel="noreferrer">X / Twitter ↗</a>
         <a href="https://www.producthunt.com/posts/design-review" target="_blank" rel="noreferrer">Product Hunt ↗</a>
