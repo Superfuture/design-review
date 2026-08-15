@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>design-review: a senior design critique in your terminal</title>
-<meta name="description" content="A Claude Code skill that runs a sharp, prioritized design critique of any URL, screenshot, or component, across hierarchy, type, spacing, contrast, motion, and accessibility, with specific fixes you can auto-apply." />
+<title>design-review: a senior design critique for Claude Code and Figma</title>
+<meta name="description" content="A Claude Code and Figma skill that runs a sharp, prioritized design critique of any URL, screenshot, or component, across hierarchy, type, spacing, contrast, motion, and accessibility, with specific fixes you can auto-apply." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='22' r='13' fill='%23e0524a'/><circle cx='50' cy='50' r='13' fill='%23e8a23b'/><circle cx='50' cy='78' r='13' fill='%23c9c044'/></svg>" />
 <link rel="apple-touch-icon" href="app-icon.png" />
 <link rel="canonical" href="https://crit.officialjp.com/" />
@@ -17,25 +17,25 @@
 </script>
 <!-- Open Graph / Twitter -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="design-review: a senior design critique in your terminal" />
-<meta property="og:description" content="Ranked design findings with specific fixes you can auto-apply. A Claude Code skill." />
+<meta property="og:title" content="design-review: a senior design critique for Claude Code and Figma" />
+<meta property="og:description" content="Ranked design findings with specific fixes you can auto-apply. A Claude Code and Figma skill." />
 <meta property="og:url" content="https://crit.officialjp.com/" />
 <meta property="og:image" content="https://crit.officialjp.com/og-image.png?v=3" />
 <meta property="og:image:secure_url" content="https://crit.officialjp.com/og-image.png?v=3" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="design-review: a senior design critique in your terminal" />
+<meta property="og:image:alt" content="design-review: a senior design critique for Claude Code and Figma" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="design-review: a senior design critique in your terminal" />
-<meta name="twitter:description" content="Ranked design findings with specific fixes you can auto-apply. A Claude Code skill." />
+<meta name="twitter:title" content="design-review: a senior design critique for Claude Code and Figma" />
+<meta name="twitter:description" content="Ranked design findings with specific fixes you can auto-apply. A Claude Code and Figma skill." />
 <meta name="twitter:image" content="https://crit.officialjp.com/og-image.png?v=3" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#ffffff; --paper:#faf9f6; --ink:#1a1714; --ink-soft:#4a443d;
+    --cream:#ffffff; --paper:#f7f6f1; --ink:#1a1714; --ink-soft:#4a443d;
     --muted:#645b52; --line:#e9e6e0; --persimmon:#e8623b; --persimmon-deep:#c94e2c;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -205,7 +205,7 @@
 
   <header class="hero">
     <span class="pill">Claude Code &amp; Figma skill</span>
-    <h1>A senior design<br><span class="italic">critique</span>, in your terminal.</h1>
+    <h1>A senior design<br><span class="italic">critique</span>, wherever you design.</h1>
     <p class="sub">Point it at a URL, a screenshot, or a component. Get ranked, specific findings, then let it apply the fixes.&nbsp;<br class="dt">Craft standards, not vibes.</p>
     <div class="btns">
       <a class="btn btn-primary" href="#get">Get it →</a>
@@ -273,8 +273,12 @@
   <section id="get">
     <div class="eyebrow">Install</div>
     <h2>Up and running in <span class="serif italic">30 seconds</span>.</h2>
+    <div style="margin:4px 0 24px;padding:18px 22px;border:1px solid var(--line);border-radius:16px;background:var(--paper);display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between">
+      <p style="margin:0"><svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg><strong>Designing in Figma?</strong> Skip the terminal: the same senior critique, right inside your file.</p>
+      <a class="btn btn-ghost" href="https://www.figma.com/community/skill/65434/superfuture-design-review" target="_blank" rel="noreferrer">Get it on Figma Community ↗</a>
+    </div>
     <div class="steps">
-      <div class="step"><div class="n">1</div><p>Add the marketplace and install the plugin:</p></div>
+      <div class="step"><div class="n">1</div><p>Using Claude Code? Add the marketplace and install the plugin:</p></div>
     </div>
     <pre><span class="c"># in Claude Code</span>
 /plugin marketplace add <span style="color:#f0c36b">Superfuture/design-review</span>
@@ -286,10 +290,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
     <div class="steps" style="margin-top:22px">
       <div class="step"><div class="n">2</div><p>Then just ask: <em>"design review officialjp.com"</em> or <em>"critique this paywall screenshot."</em></p></div>
     </div>
-    <div style="margin-top:28px;padding:20px 24px;border:1px solid var(--line);border-radius:16px;background:var(--paper);display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between">
-      <p style="margin:0"><svg class="icn" viewBox="0 0 38 57" aria-hidden="true"><path fill="#ff7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#f24e1e" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#a259ff" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/><path fill="#1abcfe" d="M19 28.5a9.5 9.5 0 1 1 9.5 9.5 9.5 9.5 0 0 1-9.5-9.5z"/><path fill="#0acf83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/></svg><strong>Design in Figma?</strong> Crit is also a Figma skill: the same senior critique, right inside your file.</p>
-      <a class="btn btn-ghost" href="https://www.figma.com/community/skill/65434/superfuture-design-review" target="_blank" rel="noreferrer">Get it on Figma Community ↗</a>
-    </div>
+    
   </section>
 
   <section>
@@ -325,7 +326,7 @@ cp -r /tmp/dr/design-review/skills/design-review ~/.claude/skills/</pre>
     <div class="eyebrow">FAQ</div>
     <h2>Questions, <span class="serif italic">answered.</span></h2>
     <div class="faq">
-      <details open><summary>What is design-review?</summary><p>A Claude Code skill that runs a senior-level design critique of any URL, screenshot, or component, ranked from blocking to polish, each finding with a specific fix you can auto-apply.</p></details>
+      <details open><summary>What is design-review?</summary><p>A Claude Code and Figma skill that runs a senior-level design critique of any URL, screenshot, or component, ranked from blocking to polish, each finding with a specific fix you can auto-apply.</p></details>
       <details><summary>What's the difference between Free and Pro?</summary><p>Free is the full skill and rubric, run locally in your terminal. Pro adds depth the free tier doesn't cover: an expanded mobile &amp; SwiftUI rubric and brand-token consistency checks, generated server-side so it stays current.</p></details>
       <details><summary>How do I activate Pro?</summary><p>After checkout you get a license key on the activation page. In Claude Code run <code>/design-review:activate &lt;your-key&gt;</code>, or paste the key when Crit first asks on a Pro review. Your Pro reviews then include the extra depth.</p></details>
       <details><summary>Is it a subscription?</summary><p>No. Pro is a one-time $12 unlock. Team is a separate plan, currently by waitlist.</p></details>
