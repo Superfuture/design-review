@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 · design-review</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="app-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#ffffff;--paper:#f7f6f1;--ink:#1a1714;--ink-soft:#4a443d;--line:#e9e6e0;--persimmon:#e8623b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100svh;display:grid;place-items:center;background:var(--cream);color:var(--ink);
+    font-family:Inter,system-ui,sans-serif;text-align:center;padding:24px;-webkit-font-smoothing:antialiased}
+  .dots{display:flex;gap:9px;justify-content:center;margin-bottom:28px}
+  .dots i{width:13px;height:13px;border-radius:50%}
+  h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(38px,7vw,64px);line-height:1.05;margin-bottom:14px}
+  h1 em{color:var(--persimmon)}
+  p{color:var(--ink-soft);font-size:17px;line-height:1.6;max-width:44ch;margin:0 auto 32px}
+  .btn{display:inline-block;font-weight:600;font-size:16px;padding:14px 26px;border-radius:14px;
+    background:var(--ink);color:var(--cream);text-decoration:none;transition:.2s}
+  .btn:hover{background:var(--persimmon)}
+</style>
+</head>
+<body>
+<main>
+  <div class="dots" aria-hidden="true"><i style="background:#f0605c"></i><i style="background:#f0c36b"></i><i style="background:#7fd49b"></i></div>
+  <h1>404: this page didn't survive <em>the crit.</em></h1>
+  <p>Blocking finding: the URL you followed doesn't exist. Fix: head back to the homepage and get the skill.</p>
+  <a class="btn" href="/">Back to design-review →</a>
+</main>
+</body>
+</html>

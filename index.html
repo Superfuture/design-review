@@ -8,6 +8,40 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='22' r='13' fill='%23e0524a'/><circle cx='50' cy='50' r='13' fill='%23e8a23b'/><circle cx='50' cy='78' r='13' fill='%23c9c044'/></svg>" />
 <link rel="apple-touch-icon" href="app-icon.png" />
 <link rel="canonical" href="https://crit.officialjp.com/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Crit (design-review)",
+      "alternateName": "superfuture-design-review",
+      "url": "https://crit.officialjp.com/",
+      "image": "https://crit.officialjp.com/og-image.png",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Web, macOS, Windows, Linux",
+      "description": "A Claude Code and Figma skill that runs a sharp, prioritized design critique of any URL, screenshot, or component, across hierarchy, type, spacing, contrast, motion, and accessibility, with specific fixes you can auto-apply.",
+      "author": { "@type": "Person", "name": "Joey Primiani", "url": "https://officialjp.com/" },
+      "publisher": { "@type": "Organization", "name": "Superfuture", "url": "https://superfuturelabs.com/" },
+      "offers": [
+        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Pro (one-time unlock)", "price": "12", "priceCurrency": "USD" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is design-review?", "acceptedAnswer": { "@type": "Answer", "text": "A Claude Code and Figma skill that runs a senior-level design critique of any URL, screenshot, or component, ranked from blocking to polish, each finding with a specific fix you can auto-apply." } },
+        { "@type": "Question", "name": "What's the difference between Free and Pro?", "acceptedAnswer": { "@type": "Answer", "text": "Free is the full skill and rubric, run locally in your terminal. Pro adds depth the free tier doesn't cover: an expanded mobile & SwiftUI rubric and brand-token consistency checks, generated server-side so it stays current." } },
+        { "@type": "Question", "name": "How do I activate Pro?", "acceptedAnswer": { "@type": "Answer", "text": "After checkout you get a license key on the activation page. In Claude Code run /design-review:activate <your-key>, or paste the key when Crit first asks on a Pro review. Your Pro reviews then include the extra depth." } },
+        { "@type": "Question", "name": "Is it a subscription?", "acceptedAnswer": { "@type": "Answer", "text": "No. Pro is a one-time $12 unlock. Team is a separate plan, currently by waitlist." } },
+        { "@type": "Question", "name": "I lost my key.", "acceptedAnswer": { "@type": "Answer", "text": "It's tied to your email. Get in touch via the contact page and we'll resend it." } },
+        { "@type": "Question", "name": "Refunds?", "acceptedAnswer": { "@type": "Answer", "text": "If Pro isn't earning its place, contact us within 14 days for a refund." } }
+      ]
+    }
+  ]
+}
+</script>
 <!-- Superfuture Command Center (cookieless, anonymous, no PII) -->
 <script>
   fetch('https://superfuture-metrics.pages.dev/api/ingest', {
