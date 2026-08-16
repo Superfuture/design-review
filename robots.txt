@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+Sitemap: https://crit.officialjp.com/sitemap.xml
